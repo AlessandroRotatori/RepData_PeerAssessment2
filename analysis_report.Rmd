@@ -1,0 +1,98 @@
+---
+title: "Analysis_Report"
+author: "Alessandro Rotatori"
+date: "14 giugno 2017"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Synopsis
+
+Here insert a brief descriptions
+## Introduction
+
+Insert:
+
+- System specs
+- Setting the workspace
+```{r setting_ws, results='hide', echo=FALSE}
+setwd("/Users/rotatori/Documents/GitHub/RepData_PeerAssessment2")
+```
+- list of libraries
+
+The following libraries are required to perform the analysis:
+
+```{r load_lib, message=FALSE}
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+library(xtable)
+```
+- download files:
+Files to be downloaded are the dataset and the associated document produce by the commitee:
+```{r dl_data, eval=FALSE}
+download.file(url ="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2",
+              destfile = "repdata_data_StormData.csv.bz2", method = "libcurl")
+download.file(url = "https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf",
+              destfile = "repdata.pdf", method = "libcurl")
+```
+- loading data:
+
+```{r ld_data, cache=TRUE}
+loaded.ds <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+                            header = TRUE, sep = ",", stringsAsFactors = FALSE)
+```
+
+## Data processing
+
+The input raw dataset is loaded in the data.frame *loaded.ds*. Before starting the data analysis phase, the raw dataset has to be analyzed to:
+1. Reduce the number of variables, focusing on the ones relevant for the analysis
+2. Evalute the domain of the relevant variables of *character* type and identify if any adjustment is required.
+
+Regarding the first, here is the list of the 37 variables included in the data.frame *loaded.ds*:
+```{r df_name}
+names(loaded.ds)
+```
+
+
+```{r adj_data, cache=TRUE}
+transform.exp <- function(x){
+  if (x %in% c("", "-", "+", "?")) {return(0)}
+  else if (x %in% c("h", "H")) {return(2)}
+  else if (x %in% c("k", "K")) {return(3)}
+  else if (x %in% c("m", "M")) {return(6)}
+  else if (x %in% c("b", "B")) {return(9)}
+  else if (!is.na(as.numeric(x))) {return(as.numeric(x))}
+  else if (is.na(as.numeric(x))) {return(0)}
+  else {stop("Value Not Applicable")}
+}
+storm.data.raw <- loaded.ds %>%
+  mutate(BGN_DATE = mdy_hms(BGN_DATE),
+         FATALITIES = as.numeric(FATALITIES),
+         INJURIES = as.numeric(INJURIES),
+         PROPDMGEXP = sapply(X = PROPDMGEXP, FUN = transform.exp),
+         CROPDMGEXP = sapply(X = CROPDMGEXP, FUN = transform.exp),
+         PROPDMG = as.numeric(PROPDMG)*(10^PROPDMGEXP),
+         CROPDMG = as.numeric(CROPDMG)*(10^CROPDMGEXP),
+         EVTYPE = trimws(str_to_upper(EVTYPE))) %>%
+      select(BGN_DATE, STATE, EVTYPE, 
+             FATALITIES, INJURIES, 
+             PROPDMG, CROPDMG)
+rm(loaded.ds)
+```
+
+Before analyzing the data to draw conclusion on the topic of analysis, it is useful to inpect the dataset in order to evaluate if some data transformation is required to handle data correctly.
+```{r insp_data, results='asis'}
+xt <- xtable(storm.data.raw[sample(x = nrow(storm.data.raw), size = 10, replace = FALSE),])
+print(xt, type="html")
+```
+
+## Analysis 
+
+## Results

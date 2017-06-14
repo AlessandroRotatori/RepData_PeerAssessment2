@@ -1,0 +1,8 @@
+base
+dplyr
+lubridate
+stringr
+pdftools
+stringdist
+xtable
+bindrcpp

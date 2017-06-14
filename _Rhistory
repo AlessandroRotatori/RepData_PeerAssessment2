@@ -1,0 +1,294 @@
+load("~/test/analysis.RData")
+install.packages("stringdist")
+library(stringdistr)
+library(stringdist)
+matrix.dist.char <- stringdist(not.known.event, known.event)
+str(not.know.event)
+str(not.known.event)
+str(known.event)
+str(not.known.event$EVTYPE)
+matrix.dist.char <- stringdist(not.known.event$EVTYPE, known.event)
+matrix.dist.char
+matrix.dist.char <- adist(not.known.event$EVTYPE, known.event)
+colnames(matrix.dist.char) <- as.character(known.event)
+rownames(matrix.dist.char) <- as.character(not.known.event)
+matrix.dist.char <- adist(not.known.event$EVTYPE, known.event)
+colnames(matrix.dist.char) <- as.character(known.event)
+rownames(matrix.dist.char) <- as.character(not.known.event$EVTYPE)
+matrix.dist.char
+matrix.match.char <-amatch(not.known.event$EVTYPE, known.event, maxDist = 4)
+matrix.match.char
+data.frame(
+not.known = not.known.event$EVTYPE
+, known = known.event[matrix.match.char]
+)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+not.known.event.adj <- str_replace(string = not.known.event$EVTYPE, pattern="TSTM", replacement = "THUNDERSTORM")
+not.known.event.adj
+matrix.match.char <-amatch(not.known.event.adj, known.event, maxDist = 10)
+data.frame(
+not.known = not.known.event$EVTYPE
+, known = known.event[matrix.match.char]
+)
+matrix.match.char <-amatch(not.known.event.adj, known.event, maxDist = 15)
+data.frame(
+not.known = not.known.event$EVTYPE
+, known = known.event[matrix.match.char]
+)
+not.known.event.adj <- str_replace(string = not.known.event$EVTYPE, pattern="TSTM", replacement = "THUNDERSTORM")
+not.known.event.adj[4] <- "FLOOD
+"
+matrix.match.char <-amatch(not.known.event.adj, known.event, maxDist = 15)
+data.frame(
+not.known = not.known.event$EVTYPE
+, known = known.event[matrix.match.char]
+)
+not.known.event.adj
+not.known.event.adj[4] <- as.character("FLOOD")
+not.known.event.adj
+matrix.match.char <-amatch(not.known.event.adj, known.event, maxDist = 15)
+data.frame(
+not.known = not.known.event.adj
+, known = known.event[matrix.match.char]
+)
+not.known.conversion <- data.frame(
+not.known = not.known.event$EVTYPE
+, known = known.event[matrix.match.char]
+)
+freq.not.evtype <- not.known.event.data %>%
+group_by(EVTYPE) %>%
+summarise(total.count=n()) %>%
+filter(total.count  > 1000) %>%
+arrange(desc(total.count))
+not.known.event <- unique(freq.not.evtype)
+View(not.known.event)
+not.known.all <- unique(not.known.event.data$EVTYPE)
+not.known.all <- unique(not.known.event.data$EVTYPE)
+not.known.all.adj <- str_replace(string = not.known.all, pattern="TSTM", replacement = "THUNDERSTORM")
+not.known.all.adj <- str_replace(string = not.known.all.adj, pattern="FLD", replacement = "FLOOD")
+matrix.match.event <-amatch(not.known.all.adj, known.event, maxDist = 5)
+## create conversion table
+not.known.conversion <- data.frame(
+not.known = not.known.all.adj
+, known = known.event[matrix.match.event]
+)
+not.known.conversion
+not.known.conversion[,which(!is.na(not.known.conversion$known))]
+not.known.conversion[which(!is.na(not.known.conversion$known)),]
+matrix.match.event <-amatch(not.known.all.adj, known.event, maxDist = 2)
+## create conversion table
+not.known.conversion <- data.frame(
+not.known = not.known.all.adj
+, known = known.event[matrix.match.event]
+)
+not.known.conversion[which(!is.na(not.known.conversion$known)),]
+matrix.match.event <-amatch(not.known.all.adj, known.event, maxDist = 3)
+## create conversion table
+not.known.conversion <- data.frame(
+not.known = not.known.all.adj
+, known = known.event[matrix.match.event]
+)
+not.known.conversion[which(!is.na(not.known.conversion$known)),]
+matrix.match.event <-amatch(not.known.all.adj, known.event, maxDist = 2)
+## create conversion table
+not.known.conversion <- data.frame(
+not.known = not.known.all.adj
+, known = known.event[matrix.match.event]
+)
+not.known.conversion[which(!is.na(not.known.conversion$known)),]
+not.know.conversion <- not.known.conversion[which(!is.na(not.known.conversion$known)),]
+not.know.conversion
+str(not.know.conversion)
+not.know.conversion <- not.known.conversion[
+which(!is.na(not.known.conversion$known))&&
+which(!knot.know.conversion$known=="RAIN"),]
+not.know.conversion <- not.known.conversion[
+which(!is.na(not.known.conversion$known))&&
+which(!knot.known.conversion$known=="RAIN"),]
+not.know.conversion <- not.known.conversion[
+which(!is.na(not.known.conversion$known))&&
+which(!not.known.conversion$known=="RAIN"),]
+not.known.conversion <- data.frame(
+not.known = not.known.all.adj
+, known = known.event[matrix.match.event]
+)
+not.know.conversion <- not.known.conversion[
+which(!is.na(not.known.conversion$known))&&
+which(not.known.conversion$known!="RAIN"),]
+not.know.conversion
+not.know.conversion <- not.known.conversion %>%
+filter(!is.na(known) & know != "RAIN")
+not.know.conversion <- not.known.conversion %>%
+filter(!is.na(known) & known != "RAIN")
+not.know.conversion <- not.known.conversion %>%
+filter(!is.na(known) )#& known != "RAIN")
+not.known.conversion
+not.know.conversion <- not.known.conversion %>%
+filter(!is.na(known) & not.known != "RAIN")
+not.known.conversion <- not.known.conversion %>%
+filter(!is.na(known) & not.known != "RAIN")
+not.known.conversion
+save.image("~/test/analysis.RData")
+pnorm(70, mean=80, sd=10, lower.tail = TRUE)
+qnorm(p = 0.95, mean = 1100, sd = 75)
+(1223.364-1100)/75
+qnorm(p = 0.95, mean = 1100, sd = (75/10))
+pbinom(3, size=5, prob=0.5, lower.tail = FALSE)
+qnorm(p = 0.95, mean = 15, sd = 1)
+pnorm(p = 16, mean = 15, sd = 1)
+pnorm(16, mean = 15, sd = 1)
+pnorm(14, mean = 15, sd = 1)
+ppois(q = 10, lambda = 5 * 3)
+library(swirl)
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/alessandro.rotatori/Documents/test")
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+library(xtable)
+xt <- xtable(head(storm.data.raw))
+storm.data.raw <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE) %>%
+select(BGN_DATE,
+STATE,
+EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP)
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/alessandro.rotatori/Documents/test")
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+library(xtable)
+storm.data.raw <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE) %>%
+select(BGN_DATE,
+STATE,
+EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP)
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/alessandro.rotatori/Documents/test")
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+library(xtable)
+storm.data.raw <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE) %>%
+select(BGN_DATE,
+STATE,
+EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP)
+rm(storm.data.raw)
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/alessandro.rotatori/Documents/test")
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+library(xtable)
+storm.data.raw <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/alessandro.rotatori/Documents/test")
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(pdftools)
+library(stringdist)
+library(xtable)
+storm.data.raw <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE) %>%
+select(BGN_DATE, STATE, EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP)
+loaded.ds <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE)
+rm(storm.data.raw)
+rm(loaded.ds)
+transform.exp <- function(x){
+if (x %in% c("", "-", "+", "?")) {return(0)}
+else if (x %in% c("h", "H")) {return(2)}
+else if (x %in% c("k", "K")) {return(3)}
+else if (x %in% c("m", "M")) {return(6)}
+else if (x %in% c("b", "B")) {return(9)}
+else if (!is.na(as.numeric(x))) {return(as.numeric(x))}
+else if (is.na(as.numeric(x))) {return(0)}
+else {stop("Value Not Applicable")}
+}
+storm.data.raw <- loaded.ds %>%
+select(BGN_DATE, STATE, EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP) %>%
+mutate(BGN_DATE = mdy_hms(BGN_DATE),
+FATALITIES = as.numeric(FATALITIES),
+INJURIES = as.numeric(INJURIES),
+PROPDMGEXP = sapply(X = PROPDMGEXP, FUN = transform.exp),
+CROPDMGEXP = sapply(X = CROPDMGEXP, FUN = transform.exp),
+PROPDMG = as.numeric(PROPDMG)*(10^PROPDMGEXP),
+CROPDMG = as.numeric(CROPDMG)*(10^CROPDMGEXP),
+EVTYPE = trimws(str_to_upper(EVTYPE)))
+loaded.ds <- read.csv2(file = "repdata_data_StormData.csv.bz2",
+header = TRUE, sep = ",", stringsAsFactors = FALSE)
+transform.exp <- function(x){
+if (x %in% c("", "-", "+", "?")) {return(0)}
+else if (x %in% c("h", "H")) {return(2)}
+else if (x %in% c("k", "K")) {return(3)}
+else if (x %in% c("m", "M")) {return(6)}
+else if (x %in% c("b", "B")) {return(9)}
+else if (!is.na(as.numeric(x))) {return(as.numeric(x))}
+else if (is.na(as.numeric(x))) {return(0)}
+else {stop("Value Not Applicable")}
+}
+storm.data.raw <- loaded.ds %>%
+select(BGN_DATE, STATE, EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP) %>%
+mutate(BGN_DATE = mdy_hms(BGN_DATE),
+FATALITIES = as.numeric(FATALITIES),
+INJURIES = as.numeric(INJURIES),
+PROPDMGEXP = sapply(X = PROPDMGEXP, FUN = transform.exp),
+CROPDMGEXP = sapply(X = CROPDMGEXP, FUN = transform.exp),
+PROPDMG = as.numeric(PROPDMG)*(10^PROPDMGEXP),
+CROPDMG = as.numeric(CROPDMG)*(10^CROPDMGEXP),
+EVTYPE = trimws(str_to_upper(EVTYPE)))
+head(storm.data.raw)
+View(storm.data.raw)
+head(storm.data.raw)
+storm.data.raw
+str(loaded.ds)
+storm.data.raw <- loaded.ds %>%
+select(BGN_DATE, STATE, EVTYPE,
+FATALITIES, INJURIES,
+PROPDMG, PROPDMGEXP,
+CROPDMG, CROPDMGEXP) %>%
+mutate(BGN_DATE = mdy_hms(BGN_DATE),
+FATALITIES = as.numeric(FATALITIES),
+INJURIES = as.numeric(INJURIES),
+PROPDMGEXP = sapply(X = PROPDMGEXP, FUN = transform.exp),
+CROPDMGEXP = sapply(X = CROPDMGEXP, FUN = transform.exp),
+PROPDMG = as.numeric(PROPDMG)*(10^PROPDMGEXP),
+CROPDMG = as.numeric(CROPDMG)*(10^CROPDMGEXP),
+EVTYPE = trimws(str_to_upper(EVTYPE)))
+str(storm.data.rw)
+str(storm.data.raw)
+head(storm.data.raw)
+str(storm.data.raw)
